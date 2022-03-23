@@ -30,7 +30,7 @@ jib {
         image = 'amazoncorretto:11-alpine-jdk'
     }
     to {
-        image = 'prometheus-springboot:003'
+        image = 'royalespn/prometheus-springboot:005'
     }
 }
 
