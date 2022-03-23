@@ -1,0 +1,57 @@
+spring:
+  application:
+    name: PrometheusDeepDrive
+  cloud:
+    stream:
+      bindings:
+        OutputChannelRabbit:
+          destination: rabbit-channel
+          binder: rabbit
+        InputChannelRabbit:
+          destination: rabbit-channel
+          binder: rabbit
+
+  datasource:
+    url: jdbc:mariadb://localhost:3306/prometheusdeepdrive
+    username: user
+    password: user
+    driverClassName: org.mariadb.jdbc.Driver
+  jpa:
+    hibernate:
+      ddl-auto: create
+    show-sql: true
+
+  cache:
+    type: redis
+    cache-names: student
+    redis:
+      time-to-live: 60000
+  redis:
+    host: 127.0.0.1
+    port: 6379
+    password: guest
+
+
+spring.rabbitmq:
+  host: 127.0.0.1
+  port: 5672
+  username: guest
+  password: guest
+
+management:
+  endpoints:
+    enabled-by-default: true
+    health:
+      show-details: always
+    web:
+      exposure:
+        include: '*'
+  health:
+    enabled: true
+
+
+#management.endpoints.web.base-path=/
+#management.endpoints.web.path-mapping.health=healthCheck
+
+
+

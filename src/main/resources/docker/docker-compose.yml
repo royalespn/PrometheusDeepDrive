@@ -1,0 +1,96 @@
+version: "3"
+
+services:
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: "prometheus"
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+      - ./rules.yml:/etc/prometheus/rules.yml
+    depends_on:
+      - pushgateway
+    ports:
+      - 9090:9090
+
+
+  alertmanager:
+    image: prom/alertmanager:latest
+    container_name: "alertmanager"
+    ports:
+      - 9093:9093
+    volumes:
+      - ./alertmanager.yml:/etc/alertmanager/alertmanager.yml
+
+
+  grafana:
+    image: grafana/grafana
+    container_name: "grafana"
+    ports:
+      - 3000:3000
+    volumes:
+      - ./datasource.yml:/etc/grafana/provisioning/datasources/datasource.yml
+    depends_on:
+      - prometheus
+
+
+  pushgateway:
+    image: prom/pushgateway
+    container_name: "pushgateway"
+    command:
+      - '--web.listen-address=:9091'
+      - '--push.disable-consistency-check'
+      - '--persistence.interval=5m'
+    ports:
+      - 9091:9091
+
+  redis:
+    image: "bitnami/redis:latest"
+    container_name: "redis"
+    ports:
+    - 6379:6379
+    environment:
+    - REDIS_REPLICATION_MODE=master
+    - REDIS_PASSWORD=guest
+
+
+  redis-exporter:
+    image: oliver006/redis_exporter
+    container_name: "redis-exporter"
+    ports:
+      - 9121:9121
+    restart: unless-stopped
+    environment:
+      REDIS_ADDR: "redis:6379"
+      REDIS_USER: null
+      REDIS_PASSWORD: guest
+    links:
+      - redis
+      - prometheus
+
+
+  rabbitmq:
+    container_name: "rabbitmq"
+    image: rabbitmq:latest
+    environment:
+      RABBITMQ_DEFAULT_USER: guest
+      RABBITMQ_DEFAULT_PASS: guest
+      RABBITMQ_ERLANG_COOKIE: rabbitmq-prometheus
+      RABBITMQ_LOG: debug,+color
+      METRICS_PROMETHEUS: 'true'
+    ports:
+      - '5672:5672'
+      - '15672:15672'
+      - '15692:15692'
+
+
+  mariadb:
+    container_name: "mariadb"
+    image: "mariadb:latest"
+    restart: 'always'
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: "root"
+      MYSQL_DATABASE: "prometheusdeepdrive"
+      MYSQL_USER: "user"
+      MYSQL_PASSWORD: "user"
