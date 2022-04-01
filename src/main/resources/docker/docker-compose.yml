@@ -94,3 +94,20 @@ services:
       MYSQL_DATABASE: "prometheusdeepdrive"
       MYSQL_USER: "user"
       MYSQL_PASSWORD: "user"
+
+
+  springboot-prometheus-app:
+    image: "royalespn/prometheusdeepdrive:latest"
+    container_name: "springboot-prometheus-app"
+    ports:
+      - 8080:8080
+    environment:
+      SPRING_DATASOURCE_URL: "jdbc:mariadb://host.docker.internal:3306/prometheusdeepdrive"
+      SPRING_REDIS_HOST: "host.docker.internal"
+      SPRING_RABBITMQ_HOST: "host.docker.internal"
+
+  springboot-taskscheduler-app:
+    image: "royalespn/springboottaskscheduler:latest"
+    container_name: "springboot-taskscheduler-app"
+    environment:
+      MANAGEMENT_METRICS_EXPORT_PROMETHEUS_PUSHGATEWAY_BASE-URL: "host.docker.internal:9091"

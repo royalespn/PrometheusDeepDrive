@@ -2,17 +2,33 @@ groups:
   - name: studentApi
     rules:
       - alert: RequestRate
-        expr:  rate(http_server_requests_seconds_count{uri="/api/v1/student", method="GET"}[5m]) > 0
-        for: 1m
+        expr:  rate(http_server_requests_seconds_count{uri="/api/v1/student", method="GET"}[3m]) > 0
+        for: 2m
         labels:
           severity: high
+          team: 'sncr-tea-team'
         annotations:
-          summary: Application receiving too many requests
+          summary: 'Application receiving too many requests (instance {{ $labels.instance }})'
+          description: 'SpringBoot-application-Cloud receiving too many request. Please chcek'
+
+
       - alert: SVC down - whether the service is offline
-        expr: sum(up{job="SpringBoot-application-NAB-Cloud"}) == 0
-        for: 1m
+        expr: sum(up{job="SpringBoot-application-Cloud"}) == 0
+        for: 10s
         labels:
           severity: critical
-          Team: RHF the name of our group, corresponding to the label match above
+          team: 'verizon-coffee-team'
         annotations:
-          Summary: "the app service has been offline, please check!! "
+          Summary: 'the app service has been offline, please check on (instance {{ $labels.instance }})'
+          description: 'SpringBoot-application-Cloud is down!'
+
+
+      - alert: RequestRate-POST
+        expr: rate(http_server_requests_seconds_count{uri="/api/v1/student", method="POST"}[3m]) > 0
+        for: 10s
+        labels:
+          severity: critical
+          team: 'sncr-tea-team'
+        annotations:
+          Summary: 'Application receiving too many requests (instance {{ $labels.instance }})'
+          description: 'SpringBoot-application-Cloud receiving too many request. Please chcek'

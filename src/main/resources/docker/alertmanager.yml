@@ -1,7 +1,25 @@
 route:
-  receiver: emailer
+  receiver: 'default-receiver'
+  group_wait: 30s
+  group_interval: 1m
+  repeat_interval: 5m
+  group_by: [ alertname ]
+
+  routes:
+    - match:
+        team: "verizon-coffee-team"
+        severity: 'high|critical'
+      receiver: 'webhook-slack'
+    - match:
+        team: "sncr-tea-team"
+        severity: 'critical'
+      receiver: 'webhook-pagerduty'
+    - match:
+        team: "sncr-tea-team"
+        severity: 'high'
+      receiver: 'webhook-slack'
 receivers:
-  - name: emailer
+  - name: 'default-receiver'
     email_configs:
       - to: royalespn@gmail.com
         from:  royalespn@gmail.com
@@ -10,3 +28,14 @@ receivers:
         auth_identity: "royalespn@gmail.com"
         auth_password: "XXXXXXX-XXXXX-XXX"
         require_tls: false
+  - name: "webhook-slack"
+    webhook_configs:
+      - url: 'http://host.docker.internal:8080/api/v1/alert/slack'
+        send_resolved: true
+  - name: "webhook-pagerduty"
+    webhook_configs:
+      - url: 'http://host.docker.internal:8080/api/v1/alert/pagerduty'
+        send_resolved: true
+    pagerduty_configs:
+      - service_key: f00d7b5b3df5490fc0b1d9d7e0986fe1
+

@@ -2,6 +2,7 @@ package in.co.iman.prometheusdeepdrive.controllers;
 
 import in.co.iman.prometheusdeepdrive.models.Student;
 import in.co.iman.prometheusdeepdrive.services.StudentService;
+import io.micrometer.core.annotation.Timed;
 import io.micrometer.core.instrument.Counter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,7 @@ import java.util.concurrent.ThreadLocalRandom;
 @RestController
 @RequestMapping(path = "/api/v1")
 @Slf4j
+@Timed
 public class StudentController {
 
     private RestTemplate restTemplate;
