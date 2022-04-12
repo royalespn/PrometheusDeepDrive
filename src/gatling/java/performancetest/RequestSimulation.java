@@ -18,7 +18,7 @@ import static io.gatling.javaapi.http.HttpDsl.*;
 
 import static io.gatling.javaapi.core.CoreDsl.constantUsersPerSec;
 
-public class StudentRequestSimulation extends Simulation {
+public class RequestSimulation extends Simulation {
 
 
     HttpProtocolBuilder httpProtocol = HttpDsl.http
@@ -73,11 +73,29 @@ public class StudentRequestSimulation extends Simulation {
                             "    \"accountId\" : \"000222\"\n" +
                             "}"))
                     .check(status().is(200))
+            )
+
+            .exec(http("counter")
+                    .get("/api/v1/counter")
+                    .header("Content-Type", "application/json")
+                    .check(status().is(200))
+            )    .exec(http("gauge")
+                    .get("/api/v1/push")
+                    .header("Content-Type", "application/json")
+                    .check(status().is(200))
+            )    .exec(http("gauge")
+                    .get("/api/v1/pop")
+                    .header("Content-Type", "application/json")
+                    .check(status().is(200))
+            )    .exec(http("histogram")
+                    .get("/api/v1/wait")
+                    .header("Content-Type", "application/json")
+                    .check(status().is(200))
             );
 
     // Simulation
-    public StudentRequestSimulation() {
-        this.setUp(scn.injectOpen(constantUsersPerSec(2).during(Duration.ofSeconds(2))))
+    public RequestSimulation() {
+        this.setUp(scn.injectOpen(constantUsersPerSec(10).during(Duration.ofSeconds(10))))
                 .protocols(httpProtocol);
     }
 

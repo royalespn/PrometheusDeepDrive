@@ -1,4 +1,4 @@
-swagger API : http://localhost:8080/swagger-ui
+swagger API : http://localhost:8080/swagger-ui/index.html
 
 OpenAPI: http://localhost:8080/v3/api-docs
 
@@ -17,6 +17,8 @@ pushgateway :      http://localhost:9091
 redis metrics:     http://localhost:9121/metrics
 
 rabbit-mq:         http://localhost:15692/metrics
+
+spring-boot-actuator:  http://localhost:8080/actuator/prometheus
 
 
 
@@ -41,17 +43,16 @@ How to run docker:
 
 docker run --rm -p 8080:8080 royalespn/prometheusdeepdrive:latest
 
-docker tag royalespn/prometheusdeepdrive:005 royalespn/springboot-prometheus:latest
+docker tag royalespn/prometheusdeepdrive:latest royalespn/springboot-prometheus:01
 
-docker push royalespn/prometheusdeepdrive:001:latest
+docker push royalespn/prometheusdeepdrive:latest
 
 
 --------------------------
          Demo:
 --------------------------
 
-Docker-compose run 
--------------------
+7P
 1. cd /Users/irah0001/Documents/iman-poc/iman-code-push-to-repo/PrometheusDeepDrive/src/main/resources/docker
 2. docker-compose up -d
 3. docker-compose up ps

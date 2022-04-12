@@ -3,7 +3,7 @@ groups:
     rules:
       - alert: RequestRate
         expr:  rate(http_server_requests_seconds_count{uri="/api/v1/student", method="GET"}[3m]) > 0
-        for: 2m
+        for: 20s
         labels:
           severity: high
           team: 'sncr-tea-team'
@@ -32,3 +32,13 @@ groups:
         annotations:
           Summary: 'Application receiving too many requests (instance {{ $labels.instance }})'
           description: 'SpringBoot-application-Cloud receiving too many request. Please chcek'
+
+      - alert: Error-log
+        expr: irate(logback_events_total{job="SpringBoot-application", application="course-tracker",stack="prod", level="error"}[5m]) > 25
+        for: 10s
+        labels:
+          severity: critical
+          team: 'sncr-tea-team'
+        annotations:
+          Summary: 'Application course-tracker Error log detected (instance {{ $labels.instance }})'
+          description: 'SpringBoot-application-Cloud reached Error log level. Please chcek'

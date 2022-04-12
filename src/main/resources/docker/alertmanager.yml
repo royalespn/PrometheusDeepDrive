@@ -37,5 +37,6 @@ receivers:
       - url: 'http://host.docker.internal:8080/api/v1/alert/pagerduty'
         send_resolved: true
     pagerduty_configs:
-      - service_key: f00d7b5b3df5490fc0b1d9d7e0986fe1
+#      - service_key: f00d7b5b3df5490fc0b1d9d7e0986fe1
+      - service_key: R02IO70MPFAYG1E0A56OJDAQU0BIZXD9
 
