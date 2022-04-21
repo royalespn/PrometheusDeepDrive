@@ -72,7 +72,7 @@ rabbitMQ: 10991
 
 Pagerduty:
 ---------
-https://vznab.pagerduty.com/incidents
+https://vznab.pagerduty.com/incidents [Not supported anymore]
 
 
 Spring metric doc:
