@@ -55,7 +55,9 @@ Run Gratling : gradlew gatlingRun
 Metrics endpoints:
 ------------------
 redis metrics:     http://localhost:9121/metrics
+
 rabbit-mq:         http://localhost:15692/metrics
+
 springBoot metrics http://localhost:8080/actuator/prometheus
 
 
