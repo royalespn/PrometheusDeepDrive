@@ -4,7 +4,7 @@
 
 Just naviage to the docker-compose file and run the below command to run all the containers :-)
 
-1. cd /Users/irah0001/Documents/iman-poc/iman-code-push-to-repo/PrometheusDeepDrive/src/main/resources/docker
+1. cd PrometheusDeepDrive/src/main/resources/docker
 2. docker-compose up -d
 3. docker-compose up ps
 4. docker-compose up logs -f
