@@ -1,8 +1,21 @@
+--------------------------------
+         How to run locally. [docker images might not work on apple M1]
+------------------------------------
+
+Just naviage to the docker-compose file and run the below command to run all the containers :-)
+
+1. cd /Users/irah0001/Documents/iman-poc/iman-code-push-to-repo/PrometheusDeepDrive/src/main/resources/docker
+2. docker-compose up -d
+3. docker-compose up ps
+4. docker-compose up logs -f
+
+
+ALL endPoints. Open Browser and hit the below URL
+--------------------------------------------------
+
 swagger API : http://localhost:8080/swagger-ui/index.html
 
 OpenAPI: http://localhost:8080/v3/api-docs
-
-Run Gratling : gradlew gatlingRun
 
 Reddis commander: http://localhost:8099/ [guest/guest]
 
@@ -21,10 +34,6 @@ rabbit-mq:         http://localhost:15692/metrics
 spring-boot-actuator:  http://localhost:8080/actuator/prometheus
 
 
-
-
-docker-compose -f docker-compose up -d    [/logs / ps]
-
 Grafana-dashboard Impoer ID:
 ----------------------------
 
@@ -35,55 +44,12 @@ Grafana-dashboard Impoer ID:
 3. Redis dashboard:         --> 11835 
 
 
-How to build docker file>>
-./gradlew jibDockerBuild
-
-How to run docker:
-------------------
-
-docker run --rm -p 8080:8080 royalespn/prometheusdeepdrive:latest
-
-docker tag royalespn/prometheusdeepdrive:latest royalespn/springboot-prometheus:01
-
-docker push royalespn/prometheusdeepdrive:latest
 
 
---------------------------
-         Demo:
---------------------------
 
-7P
-1. cd /Users/irah0001/Documents/iman-poc/iman-code-push-to-repo/PrometheusDeepDrive/src/main/resources/docker
-2. docker-compose up -d
-3. docker-compose up ps
-4. docker-compose up logs -f
-
-Run PrometheusDeepDrive Application
-----------------------------------
-5. docker run --rm -p 8080:8080 \
--e SPRING_DATASOURCE_URL='jdbc:mariadb://host.docker.internal:3306/prometheusdeepdrive' \
--e SPRING_REDIS_HOST='host.docker.internal' \
--e SPRING_RABBITMQ_HOST='host.docker.internal' \
-royalespn/prometheusdeepdrive:latest
-
-Run SpringScheduler
-----------------------
-1. docker run --rm \
--e MANAGEMENT_METRICS_EXPORT_PROMETHEUS_PUSHGATEWAY_BASE-URL='host.docker.internal:9091' \
-royalespn/springboottaskscheduler:latest
-
-Run Gatling
+If you want to run Gatling scripts run the gradle gatling command. The scripts will flood the controller with random request
 -----------
 Run Gratling : gradlew gatlingRun
-
-Open Browser Window
--------------------
-swagger API : http://localhost:8080/swagger-ui/index.html
-
-prometheus:        http://localhost:9090
-grafana server:    http://localhost:3000 [admin/admin]
-alert manager :    http://localhost:9093
-pushgateway :      http://localhost:9091
 
 
 Metrics endpoints:
@@ -93,7 +59,7 @@ rabbit-mq:         http://localhost:15692/metrics
 springBoot metrics http://localhost:8080/actuator/prometheus
 
 
-Grafana  Dashboard:
+Grafana pre-build Dashboard:
 -------
 redis: 763
 SpringBoot APM Dashboard: 12900
