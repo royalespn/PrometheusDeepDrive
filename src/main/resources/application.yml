@@ -57,7 +57,6 @@ management:
     tags:
       region: "us-east-1"
       stack: "prod"
-      applicationX: "course-trackerX"
 
 
 #management.endpoints.web.base-path=/
