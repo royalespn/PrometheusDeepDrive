@@ -46,7 +46,6 @@ public class MultipleTagsInGaugeRegistry {
 
             gauge.labels(payload.getQueueName() + " - listenerIdleTime")
                     .set(Double.parseDouble(payload.listenerIdleTime));
-
         }
         return "Pushed item to prometheus";
     }
