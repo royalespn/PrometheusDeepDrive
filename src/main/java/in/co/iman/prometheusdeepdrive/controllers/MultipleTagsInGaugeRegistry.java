@@ -17,16 +17,17 @@ import java.util.List;
 @Slf4j
 public class MultipleTagsInGaugeRegistry {
 
-    private static final List<String> connectedStatus = Arrays.asList("TRUE", "FALSE");
-    private static final List<String> queueName = Arrays.asList("jobs_ott_queue", "obs_wireline_queue",
-            "jobs.retry.queue", "jobs.wireless.queue");
+    private static final String[] LABEL_NAME = new String[]{"queueName", "metric_type", "connected"};
+    private static final String GAUGE_NAME = "ott_queue_statistics";
+    private static final String HELP_MESSAGE = "ott queue stat metric";
+
     private Gauge gauge;
 
     public MultipleTagsInGaugeRegistry(CollectorRegistry collectorRegistry) {
         gauge = Gauge.build()
-                .name("ott_queue_statistics")
-                .labelNames("queueName", "metric_type" , "connected")
-                .help("ott queue stat metric")
+                .name(GAUGE_NAME)
+                .labelNames(LABEL_NAME)
+                .help(HELP_MESSAGE)
                 .register(collectorRegistry);
     }
 
