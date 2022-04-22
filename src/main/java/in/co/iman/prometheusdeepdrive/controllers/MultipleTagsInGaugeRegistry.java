@@ -25,7 +25,7 @@ public class MultipleTagsInGaugeRegistry {
     public MultipleTagsInGaugeRegistry(CollectorRegistry collectorRegistry) {
         gauge = Gauge.build()
                 .name("ott_queue_statistics")
-                .labelNames("queueName")
+                .labelNames("queueName", "metric_type" , "connected")
                 .help("ott queue stat metric")
                 .register(collectorRegistry);
     }
@@ -37,14 +37,13 @@ public class MultipleTagsInGaugeRegistry {
 
         for (JsonPayload payload : jsonPayload) {
 
-
-            gauge.labels(payload.getQueueName() + " - payload.queueDepth")
+            gauge.labels(payload.getQueueName(),  "queueDepth" , payload.connected)
                     .set(Double.parseDouble(payload.queueDepth));
 
-            gauge.labels(payload.getQueueName() + " - consumerCount")
+            gauge.labels(payload.getQueueName(), "consumerCount", payload.connected)
                     .set(Double.parseDouble(payload.consumerCount));
 
-            gauge.labels(payload.getQueueName() + " - listenerIdleTime")
+            gauge.labels(payload.getQueueName(), "listenerIdleTime", payload.connected)
                     .set(Double.parseDouble(payload.listenerIdleTime));
         }
         return "Pushed item to prometheus";
