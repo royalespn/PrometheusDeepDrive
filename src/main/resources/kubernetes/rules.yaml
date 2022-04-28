@@ -1,0 +1,12 @@
+groups:
+  - name: studentApi
+    rules:
+      - alert: RequestRate
+        expr:  rate(http_server_requests_seconds_count{uri="/api/v1/metric/gauge", method="GET"}[2m]) > 0
+        for: 20s
+        labels:
+          severity: high
+          team: 'sncr-tea-team'
+        annotations:
+          summary: 'Application receiving too many requests (instance {{ $labels.instance }})'
+          description: 'SpringBoot-application receiving too many request. Please chcek'
